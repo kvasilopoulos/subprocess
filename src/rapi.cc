@@ -188,7 +188,7 @@ static void C_child_process_finalizer(SEXP ptr)
       handle->wait(TIMEOUT_IMMEDIATE);
       handle->terminate();
     }
-    catch (subprocess_exception) {
+    catch (const subprocess_exception &) { //Exceptions should be caught by constant reference, not by value.
       handle->~process_handle_t();
       Free(handle);
       throw;
